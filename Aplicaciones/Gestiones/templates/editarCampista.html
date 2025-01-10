@@ -1,7 +1,7 @@
 {% extends "./plantilla.html"%}
 {% block contenido %}
 <div class="container mt-4">
-    <form action="{% url 'procesarEdicionCampista' %}" id="frm_editar_campista" method="post" class="p-4 border rounded bg-light">
+    <form action="/procesarEdicionCampista/" id="frm_editar_campista" method="post" class="p-4 border rounded bg-light">
         <h3 class="mb-3 text-center">ACTUALIZAR CAMPISTA:</h3>
         {% csrf_token %}
         <div class="mb-3">

@@ -1,7 +1,7 @@
 {% extends "./plantilla.html" %}
 {% block contenido %}
 <div class="container mt-4">
-    <form action="{% url 'procesarEdicionReserva' %}" id="frm_editar_reserva" method="post" class="p-4 border rounded bg-light">
+    <form action="/procesarEdicionReserva/" id="frm_editar_reserva" method="post" class="p-4 border rounded bg-light">
         <h3 class="mb-3 text-center">Actualizar Reserva:</h3>
         {% csrf_token %}
         
@@ -81,7 +81,7 @@
                 },
                 fechfin_rev: {
                     required: true,
-                    greaterThanFechaInicio: true
+                    fechaFinMayorOIgual: true
                 },
                 tipaloj_rev: {
                     required: true
@@ -108,7 +108,7 @@
                 },
                 "fechfin_rev": {
                     required: "Por favor ingrese la fecha de finalización",
-                    greaterThanFechaInicio: "La fecha de finalización debe ser posterior a la fecha de inicio"
+                    fechaFinMayorOIgual: "La fecha de finalización debe ser posterior a la fecha de inicio"
                 },
                 "tipaloj_camp": {
                     required: "Por favor seleccione el tipo de alojamiento"
