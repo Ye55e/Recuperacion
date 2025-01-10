@@ -1,0 +1,135 @@
+{% extends "./plantilla.html" %}
+{% block contenido %}
+<div class="container mt-5">
+    <div class="row justify-content-center align-items-center">
+        <!-- Formulario alineado a la izquierda -->
+        <div class="col-md-6">
+            <div class="card shadow">
+                <div class="card-body">
+                    <h3 class="text-center mb-4">REGISTRO DE RESERVAS</h3>
+                    <form action="{% url 'guardarReserva' %}" id="frm_nuevo_reserva" method="POST">
+                        {% csrf_token %}
+                        
+                        <div class="mb-3">
+                            <label for="id_camp" class="form-label"><b>CAMPISTA:</b></label>
+                            <select name="id_camp" id="id_camp" class="form-select" required>
+                                <option value="" disabled selected>Seleccione un Campista</option>
+                                {% for camp in campista %}
+                                    <option value="{{ camp.id_camp }}">{{ camp.nombre_camp }} {{ camp.apell_camp }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="txt_fechin_rev" class="form-label"><b>FECHA DE INICIO:</b></label>
+                            <input type="date" name="txt_fechin_rev" id="txt_fechin_rev" class="form-control" required>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="txt_fechfin_rev" class="form-label"><b>FECHA DE FINALIZACION:</b></label>
+                            <input type="date" name="txt_fechfin_rev" id="txt_fechfin_rev" class="form-control" required>
+                        </div>
+                        
+                        
+                        <div class="mb-3">
+                            <label for="txt_tipoaloj_camp" class="form-label"><b>TIPO DE ALOJAMIENTO:</b></label>
+                            <select name="txt_tipoaloj_camp" id="txt_tipoaloj_camp" class="form-control" required>
+                                <option value="Tienda">Tienda</option>
+                                <option value="Cabaña">Cabaña</option>
+                                <option value="Caravana">Caravana</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="txt_numper_rev" class="form-label"><b>NUMERO DE PERSONAS:</b></label>
+                            <input type="number" name="txt_numper_rev" id="txt_numper_rev" class="form-control" required>
+                        </div>
+
+                    
+                        <div class="mb-3">
+                            <label for="txt_estado_rev" class="form-label"><b>ESTADO DE LA RESERVA:</b></label>
+                            <select name="txt_estado_rev" id="txt_estado_rev" class="form-control" required>
+                                <option value="Confirmada">Confirmada</option>
+                                <option value="Pendiente">Pendiente</option>
+                                
+                            </select>
+                        </div>
+
+
+                        <div class="mb-3">
+                            <label for="txt_obsrv_rev" class="form-label"><b>OBSERVACION:</b></label>
+                            <textarea name="txt_obsrv_rev" id="txt_obsrv_rev" class="form-control" rows="3" required></textarea>
+                        </div>
+                        
+                        <div class="d-flex justify-content-center gap-2">
+                            <button type="submit" class="btn btn-primary">Guardar</button>
+                            <button type="reset" class="btn btn-secondary">Cancelar</button>
+                        </div>
+                        
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        $("#frm_nuevo_reserva").validate({
+            rules: {
+                id_camp: {
+                    required: true
+                },
+                txt_fechin_rev: {
+                    required: true,
+                    fechaMayorOIgual: true
+                },
+                txt_fechfin_rev: {
+                    required: true,
+                    greaterThanFechaInicio: true
+                },
+                txt_tipoaloj_camp: {
+                    required: true
+                },
+                txt_numper_rev: {
+                    required: true,
+                    digits: true,
+                    min: 1
+                },
+                txt_estado_rev: {
+                    required: true
+                },
+                txt_obsrv_rev: {
+                    required: true
+                }
+            },
+            messages: {
+                "id_camp": {
+                    required: "Por favor seleccione un campista"
+                },
+                "txt_fechin_rev": {
+                    required: "Por favor ingrese la fecha de inicio",
+                    fechaMayorOIgual: "La fecha de inicio no puede ser anterior al día de hoy"
+                },
+                "txt_fechfin_rev": {
+                    required: "Por favor ingrese la fecha de finalización",
+                    greaterThanFechaInicio: "La fecha de finalización debe ser posterior a la fecha de inicio"
+                },
+                "txt_tipoaloj_camp": {
+                    required: "Por favor seleccione el tipo de alojamiento"
+                },
+                "txt_numper_rev": {
+                    required: "Por favor ingrese el número de personas",
+                    digits: "El número de personas debe ser un valor numérico",
+                    min: "El número de personas debe ser al menos 1"
+                },
+                "txt_estado_rev": {
+                    required: "Por favor seleccione el estado de la reserva"
+                },
+                "txt_obsrv_rev": {
+                    required: "Por favor ingrese una observación"
+                }
+            }
+        });
+    });
+</script>
+{% endblock %}

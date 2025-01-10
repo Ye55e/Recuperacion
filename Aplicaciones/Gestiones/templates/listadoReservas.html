@@ -1,0 +1,49 @@
+{% extends "./plantilla.html"%}
+{% block contenido %}
+<br>
+<br>
+<h3 class="text-center mb-4">LISTADO DE RESERVAS</h3>
+<div class="card  shadow">
+    
+    <div class="card-body">
+        
+        <table class="table table-bordered table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>CAMPISTA</th>
+                    <th>FECHA INICIO</th>
+                    <th>FECHA FINALIZACION</th>
+                    <th>TIPO ALOJAMIENTO</th>
+                    <th>NUMERO PERSONAS</th>
+                    <th>ESTADO </th>
+                    <th>OBSERVACION</th>
+                    <th>ACCIONES</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                {% for reserv in reserva%}
+                <tr>
+                    <td>{{ reserv.id_rev }}</td>
+                    <td>{{ reserv.campista.nombre_camp }} {{ reserv.campista.apell_camp }}</td>
+                    <td>{{ reserv.fechain_rev}}</td>
+                    <td>{{ reserv.fechfin_rev }}</td>
+                    <td>{{ reserv.tipaloj_rev }}</td>
+                    <td>{{ reserv.numpers_rev }}</td>
+                    <td>{{ reserv.estado_rev }}</td>
+                    <td>{{ reserv.obser_rev }}</td>
+                    <td>
+                        <a href="/editarReserva/{{ reserv.id_rev }}" class="btn btn-warning btn-sm me-2">Editar</a> 
+                        <a onclick="return confirm('Esta seguro de eliminar permanentemente')" href="/eliminarReserva/{{ reserv.id_rev }}"
+                        class="btn btn-danger btn-sm">Eliminar</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+            
+        </table>
+    </div>
+</div>
+
+{% endblock %}

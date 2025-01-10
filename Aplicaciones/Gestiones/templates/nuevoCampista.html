@@ -1,0 +1,121 @@
+{% extends "./plantilla.html" %}
+{% block contenido %}
+<div class="container mt-5">
+    <div class="row justify-content-center align-items-center">
+        <!-- Formulario alineado a la izquierda -->
+        <div class="col-md-6">
+            <div class="card shadow">
+                <div class="card-body">
+                    <h3 class="text-center mb-4">REGISTRO DE CAMPISTAS</h3>
+                    <form action="{% url 'guardarCampista' %}" id="frm_nuevo_campista" method="POST">
+                        {% csrf_token %}
+
+                        <div class="mb-3">
+                            <label for="txt_nombre_camp" class="form-label"><b>NOMBRES:</b></label>
+                            <input type="text" name="txt_nombre_camp" id="txt_nombre_campt" class="form-control" required>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="txt_apell_camp" class="form-label"><b>APELLIDOS:</b></label>
+                            <input type="text" name="txt_apell_camp" id="txt_apell_camp" class="form-control" required>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="txt_correo_camp" class="form-label"><b>CORREO:</b></label>
+                            <input type="email" name="txt_correo_camp" id="txt_correo_camp" class="form-control" required>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="txt_telef_camp" class="form-label"><b>TELEFONO:</b></label>
+                            <input type="number" name="txt_telef_camp" id="txt_telef_camp" class="form-control" required>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="txt_cedla_camp" class="form-label"><b>CEDULA:</b></label>
+                            <input type="number" name="txt_cedla_camp" id="txt_cedla_camp" class="form-control" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="txt_direcc_camp" class="form-label"><b>DIRECCION:</b></label>
+                            <textarea name="txt_direcc_camp" id="txt_direcc_camp" class="form-control" rows="3" required></textarea>
+                        </div>
+                        
+                        <div class="d-flex justify-content-center gap-2">
+                            <button type="submit" class="btn btn-primary">Guardar</button>
+                            <button type="reset" class="btn btn-secondary">Cancelar</button>
+                        </div>
+                        
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        $("#frm_nuevo_campista").validate({
+            
+            rules: {
+                txt_nombre_camp: {
+                    required: true,
+                    letras: true
+                },
+                txt_apell_camp: {
+                    required: true,
+                    letras: true
+                },
+                txt_correo_camp: {
+                    required: true,
+                    email: true
+                },
+                txt_telef_camp: {
+                    required: true,
+                    digits: true,
+                    minlength: 10,
+                    maxlength: 10
+                },
+                txt_cedla_camp: {
+                    required: true,
+                    digits: true,
+                    minlength: 10,
+                    maxlength: 10
+                },
+                txt_direcc_camp: {
+                    required: true
+                }
+            },
+            messages: {
+                "txt_nombre_camp": {
+                    required: "Por favor ingrese el nombre",
+                    letras: "El nombre solo debe contener letras"
+                },
+                "txt_apell_camp": {
+                    required: "Por favor ingrese el apellido",
+                    letras: "El apellido solo debe contener letras"
+                },
+                "txt_correo_camp": {
+                    required: "Por favor ingrese un correo",
+                    email: "Ingrese una dirección de correo válida"
+                },
+                "txt_telef_camp": {
+                    required: "Por favor ingrese el número de teléfono",
+                    digits: "El teléfono debe contener solo números",
+                    minlength: "El teléfono debe tener al menos 10 dígitos",
+                    maxlength: "El teléfono no puede exceder los 10 dígitos"
+                },
+                "txt_cedla_camp": {
+                    required: "Por favor ingrese la cédula",
+                    digits: "La cédula debe contener solo números",
+                    minlength: "La cédula debe tener exactamente 10 dígitos",
+                    maxlength: "La cédula debe tener exactamente 10 dígitos"
+                },
+                "txt_direcc_camp": {
+                    required: "Por favor ingrese la dirección"
+                }
+            },
+        });
+    });
+</script>
+
+
+{% endblock %}

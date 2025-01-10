@@ -1,0 +1,46 @@
+{% extends "./plantilla.html"%}
+{% block contenido %}
+<br>
+<br>
+<h3 class="text-center mb-4">LISTADO DE CAMPISTAS</h3>
+<div class="card  shadow">
+    
+    <div class="card-body">
+        
+        <table class="table table-bordered table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>NOMBRES</th>
+                    <th>APELLIDOS</th>
+                    <th>CORREO</th>
+                    <th>TELEFONO</th>
+                    <th>CEDULA</th>
+                    <th>DIRECCION</th>
+                    <th>ACCIONES</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                {% for camp in campista %}
+                <tr>
+                    <td>{{ camp.id_camp }}</td>
+                    <td>{{ camp.nombre_camp }}</td>
+                    <td>{{ camp.apell_camp }}</td>
+                    <td>{{ camp.correo_camp }}</td>
+                    <td>{{ camp.telef_camp }}</td>
+                    <td>{{ camp.cedula_camp }}</td>
+                    <td>{{ camp.direcc_camp }}</td>
+                    <td>
+                        <a href="/editarCampista/{{ camp.id_camp }}" class="btn btn-warning btn-sm me-2">Editar</a> 
+                        <a onclick="return confirm('Esta seguro de eliminar permanentemente')" href="/eliminarCampista/{{ camp.id_camp }}"
+                        class="btn btn-danger btn-sm">Eliminar</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,131 @@
+{% extends "./plantilla.html" %}
+{% block contenido %}
+<div class="container mt-4">
+    <form action="{% url 'procesarEdicionReserva' %}" id="frm_editar_reserva" method="post" class="p-4 border rounded bg-light">
+        <h3 class="mb-3 text-center">Actualizar Reserva:</h3>
+        {% csrf_token %}
+        
+        <div class="mb-3">
+            <label for="" class="form-label"><b>ID:</b></label>
+            <input type="hidden" name="id_rev" value="{{ reserva.id_rev }}">
+            <input type="text" class="form-control" id="id_rev" value="{{ reserva.id_rev }}" readonly>
+        </div>
+
+        <div class="mb-3">
+            <label for="campista" class="form-label"><b>CAMPISTA:</b></label>
+            <select name="campista" id="campista" class="form-control" required>
+                {% for campista in campistas %}
+                    <option value="{{ campista.id_camp }}" {% if campista.id_camp == reserva.campista.id_camp %}selected{% endif %}>
+                        {{ campista.nombre_camp }} {{ campista.apell_camp }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label for="fechain_rev" class="form-label"><b>FECHA INICIO:</b></label>
+            <input type="date" name="fechain_rev" id="fechain_rev" class="form-control" required value="{{ reserva.fechain_rev|date:'Y-m-d' }}">
+        </div>
+
+        <div class="mb-3">
+            <label for="fechfin_rev" class="form-label"><b>FECHA FIN:</b></label>
+            <input type="date" name="fechfin_rev" id="fechfin_rev" class="form-control" required value="{{ reserva.fechfin_rev|date:'Y-m-d' }}">
+        </div>
+
+        <div class="mb-3">
+            <label for="tipaloj_rev" class="form-label"><b>TIPO DE ALOJAMIENTO:</b></label>
+            <select name="tipaloj_rev" id="tipaloj_rev" class="form-control" required>
+                {% for tipo in reserva.TIPO_ALOJAMIENTO %}
+                    <option value="{{ tipo.0 }}" {% if tipo.0 == reserva.tipaloj_rev %}selected{% endif %}>{{ tipo.1 }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label for="numpers_rev" class="form-label"><b>NÚMERO DE PERSONAS:</b></label>
+            <input type="number" name="numpers_rev" id="numpers_rev" class="form-control" required value="{{ reserva.numpers_rev }}">
+        </div>
+
+        <div class="mb-3">
+            <label for="estado_rev" class="form-label"><b>ESTADO DE LA RESERVA:</b></label>
+            <select name="estado_rev" id="estado_rev" class="form-control" required>
+                {% for estado in reserva.ESTADO_RESERVA %}
+                    <option value="{{ estado.0 }}" {% if estado.0 == reserva.estado_rev %}selected{% endif %}>{{ estado.1 }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        
+
+        <div class="mb-3">
+            <label for="obser_rev" class="form-label"><b>OBSERVACIONES:</b></label>
+            <textarea name="obser_rev" id="obser_rev" class="form-control" rows="3" required>{{ reserva.obser_rev }}</textarea>
+        </div>
+        
+        <div class="text-center">
+            <button type="submit" class="btn btn-success me-2">Guardar</button>
+            <a href="/listadoReservas/" class="btn btn-danger">Cancelar</a>
+        </div>
+    </form>
+</div>
+<script>
+    $(document).ready(function () {
+        $("#frm_editar_reserva").validate({
+            rules: {
+                id_camp: {
+                    required: true
+                },
+                fechain_rev: {
+                    required: true,
+                    fechaMayorOIgual: true
+                },
+                fechfin_rev: {
+                    required: true,
+                    greaterThanFechaInicio: true
+                },
+                tipaloj_rev: {
+                    required: true
+                },
+                numpers_rev: {
+                    required: true,
+                    digits: true,
+                    min: 1
+                },
+                estado_rev: {
+                    required: true
+                },
+                obser_rev: {
+                    required: true
+                }
+            },
+            messages: {
+                "id_camp": {
+                    required: "Por favor seleccione un campista"
+                },
+                "fechain_rev": {
+                    required: "Por favor ingrese la fecha de inicio",
+                    fechaMayorOIgual: "La fecha de inicio no puede ser anterior al día de hoy"
+                },
+                "fechfin_rev": {
+                    required: "Por favor ingrese la fecha de finalización",
+                    greaterThanFechaInicio: "La fecha de finalización debe ser posterior a la fecha de inicio"
+                },
+                "tipaloj_camp": {
+                    required: "Por favor seleccione el tipo de alojamiento"
+                },
+                "numpers_rev": {
+                    required: "Por favor ingrese el número de personas",
+                    digits: "El número de personas debe ser un valor numérico",
+                    min: "El número de personas debe ser al menos 1"
+                },
+                "estado_rev": {
+                    required: "Por favor seleccione el estado de la reserva"
+                },
+                "obser_rev": {
+                    required: "Por favor ingrese una observación"
+                }
+            }
+        });
+    });
+</script>
+{% endblock %}
